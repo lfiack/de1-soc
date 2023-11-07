@@ -3,17 +3,19 @@
 
 J'ai mis le dossier systemCD dans le .gitignore pour ne pas alourdir le projet (Quasi 1GB!)
 
-## Installation sous Linux
-Penser à installer avec les droits root. Ça se passe sans trop de problèmes.
+Re-télécharger sur les différents PC en cherchant un truc du genre "DE1-SoC Board" dans un truc du genre "Google".
 
-L'exécutable se trouve dans le dossier suivant :
+## Installation sous Linux
+Penser à installer avec les droits root. Ça se passe sans trop de problèmes (testé que sur ubuntu pour l'instant).
+
+L'exécutable se trouve dans le dossier suivant (si on l'a installé au bon endroit) :
 ```bash
 /opt/intelFPGA_lite/22.1std/quartus/bin/
 ```
 
-Il s'appelle tout simplement quartus
+L'exécutable s'appelle tout simplement quartus
 
-### Pour programmer la carte
+### Pour programmer la carte (sous Linux toujours)
 Il n'y a pas besoin de drivers, mais il faut penser aux règles udev :
 
 ```bash
@@ -39,7 +41,7 @@ SUBSYSTEM=="usb", ATTR{idVendor}=="09fb", ATTR{idProduct}=="6810", MODE="0666"
 ## Configuration du FPGA
 Si on ne fait pas les choses comme il faut, quartus plante. C'est nul!
 
-Dans "Programmer", (/opt/intelFPGA_lite/22.1std/quartus/bin/quartus_pgmw) :
+Dans "Programmer", (/opt/intelFPGA_lite/22.1std/quartus/bin/quartus_pgmw, ou bien sûr à travers Quartus) :
 
 * Cliquer sur Auto Detect
 	* Ça fait apparaître une pop-up, cliquez sur OK ou whatever
@@ -52,7 +54,7 @@ Dans "Programmer", (/opt/intelFPGA_lite/22.1std/quartus/bin/quartus_pgmw) :
 	* Ouais, ça marche
 
 ## Fichier de contraintes
-On peut utiliser l'outil graphique : Assignments > Pin Planner, mais il faut lancer "Analysis & Synthesis avant.
+On peut utiliser l'outil graphique : Assignments > Pin Planner, mais il faut lancer "Analysis & Synthesis" avant.
 
 On peut aussi éditer le fichier .qsf
 
@@ -62,8 +64,8 @@ set_location_assignment PIN_V16 -to leds[0]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to leds[0]
 ```
 
-## Horloges et PLL
-Il y a 4 clocks à 50MHz : PIN_AF14, PIN_AA16, PIN_Y26, PIN_K14. Elles sont en 3.3-V LVTTL
+## Horloges et PLL
+Il y a 4 clocks à 50MHz : PIN_AF14, PIN_AA16, PIN_Y26, PIN_K14. Elles sont en 3.3-V LVTTL.
 
 ### Pour la PLL
 Tools > IP Catalog. On dirait que rien ne se passe, mais ça ouvre un truc sur la droite.
@@ -80,11 +82,11 @@ pll_0 : entity pll.pll
 
 Le signal rst est en logique positive (il faut mettre '0' pour que la pll fonctionne, ou "not nrst")
 
-## Trucs cools
+## Quelques trucs cools en vrac
 Fenetre de compilation à gauche : 
 * Compile Desing > Analysis & Synthesis > Netlist Viewers > RTL Viewer
 
-## Chasse au warnings
+## Chasse au warnings
 Certains warnings sont nuls, mais comme en C, ça risque de masquer les warnings plus graves.
 
 ### Synopsys Design Constraints File file not found: 'pll_test.sdc'
