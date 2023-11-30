@@ -1,0 +1,6 @@
+c5_pin_model_dump.txt
+db/
+incremental_db/
+output_files/
+simulation/
+vga.vhd.bak
